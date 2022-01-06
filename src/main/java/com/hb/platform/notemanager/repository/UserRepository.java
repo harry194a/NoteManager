@@ -1,5 +1,6 @@
-package com.hb.platform.notemanager.user;
+package com.hb.platform.notemanager.repository;
 
+import com.hb.platform.notemanager.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

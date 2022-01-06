@@ -1,39 +1,22 @@
-package com.hb.platform.notemanager.user;
+package com.hb.platform.notemanager.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.hb.platform.notemanager.address.Address;
 
-@Entity
-public class AdminAddress {
-    @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
-
+public class CreateAddressModel {
     private String street1;
     private String street2;
     private String city;
     private String country;
     private int postalCode;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public AdminAddress(String street1, String street2, String city, String country, int postalCode) {
-        this.street1 = street1;
-        this.street2 = street2;
-        this.city = city;
-        this.country = country;
-        this.postalCode = postalCode;
-    }
-
-    public AdminAddress() {
-
+    public Address toEntity() {
+        Address address = new Address();
+        address.setStreet1(street1);
+        address.setStreet2(street2);
+        address.setCity(city);
+        address.setCountry(country);
+        address.setPostalCode(postalCode);
+        return address;
     }
 
     public String getStreet1() {

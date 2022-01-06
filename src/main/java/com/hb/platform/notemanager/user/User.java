@@ -1,55 +1,58 @@
 package com.hb.platform.notemanager.user;
 
+import com.hb.platform.notemanager.address.Address;
+import com.hb.platform.notemanager.base.BaseEntity;
+import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-public class User {
-    @Id
-    @GeneratedValue()
-    private Long id;
+public class User extends BaseEntity {
+
     @Column(nullable = false)
     private String fistName;
+
     @Column(nullable = false)
     private String lastName;
-    @Column(nullable = false, length = 50, unique = true)
+
+
+    @Column(nullable = false, length = 50)
     private String email;
-    @Column(length = 17)
-    private int number;
-    @Enumerated
+
+    @Column
+    //TODO chnage number Variable name to phoneNumber
+    private int phoneNumber;
+
+    //TODO Change enumType to String
+    @Enumerated(EnumType.STRING)
     private Role role;
 
 
-    @ManyToOne
-    @JoinColumn(name = "admin_address_id")
-    AdminAddress adminAddress;
+
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    //TODO change adminAddress -> address
+    private Address address;
 
     public User() {
     }
 
-    public User(String fistName, String lastName, String email, int number, Role role, AdminAddress adminAddress) {
+    public User(String fistName, String lastName, String email, int phoneNumber, Role role, Address address) {
         this.fistName = fistName;
         this.lastName = lastName;
         this.email = email;
-        this.number = number;
+        this.phoneNumber = phoneNumber;
         this.role = role;
-        this.adminAddress = adminAddress;
-    }
-
-    public AdminAddress getAdminAddress() {
-        return adminAddress;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.address = address;
     }
 
     public String getFistName() {
         return fistName;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     public void setFistName(String fistName) {
@@ -72,12 +75,12 @@ public class User {
         this.email = email;
     }
 
-    public int getNumber() {
-        return number;
+    public int getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setPhoneNumber(int number) {
+        this.phoneNumber = number;
     }
 
     public Role getRole() {
@@ -88,7 +91,23 @@ public class User {
         this.role = role;
     }
 
-    public void setAdminAddress(AdminAddress adminAddress) {
-        this.adminAddress = adminAddress;
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    //TODO Add equals and hashcode for all entities
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        User user = (User) o;
+        return phoneNumber == user.phoneNumber && Objects.equals(fistName, user.fistName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && role == user.role && Objects.equals(address, user.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), fistName, lastName, email, phoneNumber, role, address);
     }
 }
