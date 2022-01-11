@@ -1,12 +1,9 @@
-package com.hb.platform.notemanager.address;
+package com.hb.platform.notemanager.domain.address;
 
-import com.hb.platform.notemanager.base.BaseEntity;
+import com.hb.platform.notemanager.domain.base.BaseEntity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
-//TODO Change this class name to Address
 @Entity
 public class Address extends BaseEntity {
 

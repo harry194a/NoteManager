@@ -1,6 +1,5 @@
-package com.hb.platform.notemanager.services;
+package com.hb.platform.notemanager.service.common;
 
-;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;

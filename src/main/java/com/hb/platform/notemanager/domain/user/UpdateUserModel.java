@@ -1,11 +1,10 @@
-package com.hb.platform.notemanager.model;
+package com.hb.platform.notemanager.domain.user;
 
-import com.hb.platform.notemanager.address.Address;
-import com.hb.platform.notemanager.user.Role;
-import com.hb.platform.notemanager.user.User;
+import com.hb.platform.notemanager.domain.address.Address;
+import com.hb.platform.notemanager.domain.address.CreateAddressModel;
+import com.hb.platform.notemanager.domain.base.Role;
 
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
 public class UpdateUserModel {
 

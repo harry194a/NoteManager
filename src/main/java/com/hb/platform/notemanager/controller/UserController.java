@@ -1,33 +1,35 @@
 package com.hb.platform.notemanager.controller;
 
-import com.hb.platform.notemanager.model.CreateUserModel;
-import com.hb.platform.notemanager.model.UpdateUserModel;
-import com.hb.platform.notemanager.services.UserService;
-import com.hb.platform.notemanager.user.User;
+import com.hb.platform.notemanager.domain.user.CreateUserModel;
+import com.hb.platform.notemanager.domain.user.UserModel;
+import com.hb.platform.notemanager.domain.user.UpdateUserModel;
+import com.hb.platform.notemanager.service.user.UserService;
+import com.hb.platform.notemanager.domain.user.User;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("api/users")
+@Api("UserController")
 public class UserController {
-    private UserService userService;
+
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-
     @PostMapping
-    public User createUser(@RequestBody CreateUserModel createUserModel) {
-        User user = userService.addNewUser(createUserModel);
-        return user;
+    public CreateUserModel createUser(@RequestBody CreateUserModel createUserModel) {
+        UserModel user = userService.addNewUser(createUserModel);
+        return createUserModel;
     }
 
     @GetMapping
-    List<User> getUser() {
+    List<UserModel> getUser() {
         return userService.getUser();
     }
 
@@ -37,8 +39,8 @@ public class UserController {
     }
 
     @PutMapping(path = "{id}")
-    public void update(@PathVariable("id") Long id, @RequestBody UpdateUserModel updateUserModel) {
-        userService.update(id, updateUserModel);
+    public UserModel update(@PathVariable("id") Long id, @RequestBody UpdateUserModel updateUserModel) {
+        return userService.update(id, updateUserModel);
     }
 
     @DeleteMapping(path = {"{id}"})

@@ -1,8 +1,8 @@
-package com.hb.platform.notemanager.user;
+package com.hb.platform.notemanager.domain.user;
 
-import com.hb.platform.notemanager.address.Address;
-import com.hb.platform.notemanager.base.BaseEntity;
-import org.hibernate.annotations.Immutable;
+import com.hb.platform.notemanager.domain.address.Address;
+import com.hb.platform.notemanager.domain.base.BaseEntity;
+import com.hb.platform.notemanager.domain.base.Role;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -16,23 +16,17 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String lastName;
 
-
     @Column(nullable = false, length = 50)
     private String email;
 
     @Column
-    //TODO chnage number Variable name to phoneNumber
     private int phoneNumber;
 
-    //TODO Change enumType to String
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
-
     @OneToOne
     @JoinColumn(name = "address_id")
-    //TODO change adminAddress -> address
     private Address address;
 
     public User() {
@@ -49,10 +43,6 @@ public class User extends BaseEntity {
 
     public String getFistName() {
         return fistName;
-    }
-
-    public Address getAddress() {
-        return address;
     }
 
     public void setFistName(String fistName) {
@@ -79,8 +69,8 @@ public class User extends BaseEntity {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int number) {
-        this.phoneNumber = number;
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Role getRole() {
@@ -91,23 +81,11 @@ public class User extends BaseEntity {
         this.role = role;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    //TODO Add equals and hashcode for all entities
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        User user = (User) o;
-        return phoneNumber == user.phoneNumber && Objects.equals(fistName, user.fistName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && role == user.role && Objects.equals(address, user.address);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), fistName, lastName, email, phoneNumber, role, address);
     }
 }

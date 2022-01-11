@@ -1,4 +1,4 @@
-package com.hb.platform.notemanager.base;
+package com.hb.platform.notemanager.domain.base;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -8,7 +8,7 @@ public class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    protected Long id;
 
     public Long getId() {
         return id;

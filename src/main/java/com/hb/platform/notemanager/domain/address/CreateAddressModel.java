@@ -1,6 +1,4 @@
-package com.hb.platform.notemanager.model;
-
-import com.hb.platform.notemanager.address.Address;
+package com.hb.platform.notemanager.domain.address;
 
 public class CreateAddressModel {
     private String street1;
