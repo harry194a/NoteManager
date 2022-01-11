@@ -51,7 +51,6 @@ public class NoteController {
 
     @PostMapping
     public NoteModel createNote(@RequestBody CreateNoteModel createNoteModel) {
-        //        logger.info("note user name is - {}", note.getUser().getFistName());
         return noteService.addNewNote(createNoteModel);
     }
 
