@@ -48,7 +48,6 @@ public class NoteController {
         return noteService.searchNote(search);
     }
 
-
     @PostMapping
     public NoteModel createNote(@RequestBody CreateNoteModel createNoteModel) {
         return noteService.addNewNote(createNoteModel);
