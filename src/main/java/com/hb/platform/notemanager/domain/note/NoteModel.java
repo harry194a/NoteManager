@@ -1,20 +1,29 @@
 package com.hb.platform.notemanager.domain.note;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 public class NoteModel {
 
     private Long id;
     private Long userId;
     private String text;
+    private LocalDateTime localDate;
 
-    public NoteModel() {
-    }
 
-    public NoteModel(Long id, Long userId, String text) {
+
+    public NoteModel(Long id, Long userId, String text, LocalDateTime localDate) {
         this.id = id;
         this.userId = userId;
         this.text = text;
+        this.localDate = localDate;
+    }
+
+    public LocalDateTime getLocalDate() {
+        return localDate;
+    }
+
+    public void setLocalDate(LocalDateTime localDate) {
+        this.localDate = localDate;
     }
 
     public Long getId() {

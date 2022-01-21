@@ -3,6 +3,7 @@ package com.hb.platform.notemanager.domain.note;
 import com.hb.platform.notemanager.domain.user.User;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 public class CreateNoteModel {
 
@@ -15,6 +16,7 @@ public class CreateNoteModel {
         Note note = new Note();
         note.setUser(user);
         note.setText(text);
+        note.setCreatedTime(LocalDateTime.now());
         return note;
     }
 

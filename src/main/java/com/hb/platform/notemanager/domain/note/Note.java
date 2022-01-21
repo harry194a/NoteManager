@@ -4,6 +4,8 @@ import com.hb.platform.notemanager.domain.base.BaseEntity;
 import com.hb.platform.notemanager.domain.user.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Note extends BaseEntity {
@@ -13,6 +15,10 @@ public class Note extends BaseEntity {
 
     @Column(length = 10000, nullable = false)
     private String text;
+
+    @Column()
+    private LocalDateTime createdTime;
+
 
     public Note(User user, String text) {
         this.user = user;
@@ -37,5 +43,13 @@ public class Note extends BaseEntity {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
     }
 }

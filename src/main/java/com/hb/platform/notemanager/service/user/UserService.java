@@ -1,6 +1,7 @@
 package com.hb.platform.notemanager.service.user;
 
 import com.hb.platform.notemanager.domain.address.Address;
+import com.hb.platform.notemanager.domain.common.PageModel;
 import com.hb.platform.notemanager.domain.user.CreateUserModel;
 import com.hb.platform.notemanager.domain.user.UserModel;
 import com.hb.platform.notemanager.domain.user.UpdateUserModel;
@@ -11,6 +12,8 @@ import com.hb.platform.notemanager.service.common.ModelValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,16 +36,12 @@ public class UserService {
         this.modelValidator = modelValidator;
     }
 
-    public List<UserModel> getUser() {
+    public PageModel getUser(PageRequest pr) {
         logger.info("Retrieve all notes");
-        List<User> userModels = userRepository.findAll();
-        List<UserModel> returnUserModel = new ArrayList<>();
-        for (User user : userModels) {
-            returnUserModel.add(new UserModel(user.getFistName(), user.getLastName(), user.getPhoneNumber(),
-                    user.getRole(), user.getAddress()));
-        }
-        logger.info("Successfully retrieved notes result - {}", returnUserModel);
-        return returnUserModel;
+        Page<User> userPage =  userRepository.findAll(pr);
+        List<UserModel> userModel = toMap(userPage);
+        logger.info("Successfully retrieved notes result - {}", userModel);
+        return new PageModel(userModel,userPage.getTotalElements());
     }
 
     public void deleteUser(long id) {
@@ -83,5 +82,13 @@ public class UserService {
     public User findById(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Cannot find user"));
+    }
+    private List<UserModel> toMap(Page<User> userPage) {
+        List<UserModel> userModel = new ArrayList<>();
+        for (User user : userPage) {
+            userModel.add(new UserModel(user.getFistName(), user.getLastName(), user.getPhoneNumber(),
+                    user.getRole(), user.getAddress()));
+        }
+        return userModel;
     }
 }

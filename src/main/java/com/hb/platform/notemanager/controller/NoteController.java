@@ -1,52 +1,64 @@
 package com.hb.platform.notemanager.controller;
 
+import com.hb.platform.notemanager.domain.common.PageModel;
 import com.hb.platform.notemanager.domain.note.CreateNoteModel;
 import com.hb.platform.notemanager.domain.note.NoteModel;
 import com.hb.platform.notemanager.service.note.NoteService;
-import com.hb.platform.notemanager.service.user.UserService;
 import io.swagger.annotations.Api;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//TODO add missing logs in controller
 @RestController
 @RequestMapping(path = "api/notes")
 @Api("NoteController")
 public class NoteController {
 
-    private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
-
     private final NoteService noteService;
-    private final UserService userService;
-
 
     @Autowired
-    public NoteController(NoteService noteService, UserService userService) {
+    public NoteController(NoteService noteService) {
         this.noteService = noteService;
-        this.userService = userService;
     }
 
     @GetMapping
-    @Transactional
-    public List<NoteModel> getNotes() {
-        return noteService.getNotes();
+    public PageModel getNotes(
+            @RequestParam("page") Long page,
+            @RequestParam("size") Integer size) {
+        return noteService.getNotes(PageRequest.of(page.intValue(), size));
+    }
+
+    @GetMapping("findByIdPage")
+    public List<NoteModel> getNotesByIdPage(
+            @RequestParam("id") Long id,
+            @RequestParam("page") Long page,
+            @RequestParam("size") Long size) {
+        return noteService.getNotesByUserIdWithPagination(id, page, size);
     }
 
     @GetMapping("users/{userId}")
-    @Transactional
     public List<NoteModel> getNotes(@PathVariable("userId") Long useId) {
         return noteService.getNotesByUserId(useId);
     }
 
-    @GetMapping("users/search/{search}")
-    @Transactional
+
+    @GetMapping("searchById/{userId}/{search}")
+    public List<NoteModel> searchById(@PathVariable("userId") Long userId,
+                                      @PathVariable("search") String search,
+                                      @RequestParam("page") Long page,
+                                      @RequestParam("size")Long size) {
+
+        return noteService.searchNoteAndUserId(userId, search ,page,size );
+    }
+
+    @GetMapping("search/{search}")
     public List<NoteModel> search(@PathVariable("search") String search) {
         return noteService.searchNote(search);
     }
+
 
     @PostMapping
     public NoteModel createNote(@RequestBody CreateNoteModel createNoteModel) {
@@ -54,8 +66,8 @@ public class NoteController {
     }
 
     @PutMapping
-    public void update(@RequestBody String text, long id) {
-        noteService.update(id, text);
+    public NoteModel update(@RequestBody String text, long id) {
+        return noteService.update(id, text);
     }
 
     @DeleteMapping

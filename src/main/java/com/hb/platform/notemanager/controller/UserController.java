@@ -1,5 +1,6 @@
 package com.hb.platform.notemanager.controller;
 
+import com.hb.platform.notemanager.domain.common.PageModel;
 import com.hb.platform.notemanager.domain.user.CreateUserModel;
 import com.hb.platform.notemanager.domain.user.UserModel;
 import com.hb.platform.notemanager.domain.user.UpdateUserModel;
@@ -7,9 +8,8 @@ import com.hb.platform.notemanager.service.user.UserService;
 import com.hb.platform.notemanager.domain.user.User;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 @RestController
 @RequestMapping("api/users")
 @Api("UserController")
@@ -29,8 +29,11 @@ public class UserController {
     }
 
     @GetMapping
-    List<UserModel> getUser() {
-        return userService.getUser();
+    PageModel getUser(
+            @RequestParam("page")Integer page,
+            @RequestParam("size")Integer size
+    ) {
+        return userService.getUser(PageRequest.of(page,size));
     }
 
     @GetMapping(path = "{id}")
