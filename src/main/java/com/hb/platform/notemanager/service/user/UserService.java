@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,14 +27,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
     private final ModelValidator modelValidator;
+    private final PasswordEncoder passwordEncoder;
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
 
     @Autowired
-    public UserService(UserRepository userRepository, AddressRepository addressRepository, ModelValidator modelValidator) {
+    public UserService(UserRepository userRepository, AddressRepository addressRepository, ModelValidator modelValidator, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.modelValidator = modelValidator;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public PageModel getUser(PageRequest pr) {
@@ -54,7 +57,10 @@ public class UserService {
         logger.info("Retrieve all notes");
         modelValidator.validate(model);
         Address address = addressRepository.save(model.getAddress().toEntity());
-        User user = userRepository.save(model.toUser(address));
+        String encodedPassword = passwordEncoder.encode(model.getPassword());
+        User user = userRepository.save(model.toUser(
+                address,
+                encodedPassword));
         UserModel returnUserModel = new UserModel(user.getFistName(), user.getLastName(), user.getPhoneNumber(),
                 user.getRole(), user.getAddress());
         logger.info("Successfully retrieved notes result - {}", returnUserModel);

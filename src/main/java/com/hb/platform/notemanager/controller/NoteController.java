@@ -55,7 +55,9 @@ public class NoteController {
     }
 
     @GetMapping("search/{search}")
-    public List<NoteModel> search(@PathVariable("search") String search) {
+    public List<NoteModel> search(
+            @RequestHeader("Authorization") String token,
+            @PathVariable("search") String search) {
         return noteService.searchNote(search);
     }
 

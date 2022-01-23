@@ -14,14 +14,16 @@ public class CreateUserModel {
     private String fistName;
     private String lastName;
     private String email;
+    private String password;
     private int phoneNumber;
     private Role role;
     private CreateAddressModel address;
 
-    public User toUser(Address address) {
+    public User toUser(Address address, String encodedPassword) {
         User user = new User();
         user.setFistName(fistName);
         user.setLastName(lastName);
+        user.setPassword(encodedPassword);
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setAddress(address);
@@ -74,5 +76,13 @@ public class CreateUserModel {
 
     public void setAddress(CreateAddressModel address) {
         this.address = address;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
