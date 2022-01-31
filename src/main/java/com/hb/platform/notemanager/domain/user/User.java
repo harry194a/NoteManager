@@ -19,6 +19,9 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     @Column
     private int phoneNumber;
 
@@ -32,13 +35,17 @@ public class User extends BaseEntity {
     public User() {
     }
 
-    public User(String fistName, String lastName, String email, int phoneNumber, Role role, Address address) {
+    public User(
+            String fistName, String lastName,
+            String email, String password, int phoneNumber,
+            Role role, Address address) {
         this.fistName = fistName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.role = role;
         this.address = address;
+        this.password = password;
     }
 
     public String getFistName() {
@@ -79,6 +86,14 @@ public class User extends BaseEntity {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Address getAddress() {
